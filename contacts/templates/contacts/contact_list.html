@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a {
+            display: inline-block;
+            padding: 8px 16px;
+            color: #fff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        a:hover {
+            background-color: #218838;
+        }
+
+        button {
+            display: inline-block;
+            padding: 8px 16px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        a, button {
+            margin-right: 10px;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contact List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.phone_number }}</td>
+                    <td>{{ contact.address }}</td>
+                    <td class="button-container">
+                        <button class="edit-btn" onclick="window.location.href='{% url 'contact-edit' contact.id %}'">Edit</button>
+                        <button class="delete-btn" onclick="confirmDelete('{{ contact.id }}')">Delete</button>
+                        <form id="deleteForm{{ contact.id }}" method="post" action="{% url 'delete-contact' contact.id %}" style="display: none;">
+                            {% csrf_token %}
+                            <input type="hidden" name="contact_id" value="{{ contact.id }}">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="center">
+        <a href="{% url 'contact-create' %}">Add Contact</a>
+    </div>
+
+    <script>
+        function confirmDelete(contactId) {
+            if (confirm("Are you sure you want to delete this contact?")) {
+                // Submit the corresponding form
+                document.getElementById('deleteForm' + contactId).submit();
+            }
+        }
+    </script>
+</body>
+</html>

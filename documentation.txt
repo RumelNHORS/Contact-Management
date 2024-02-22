@@ -1,0 +1,158 @@
+###########################
+Contact API Documentation
+###########################
+
+Introduction:
+
+The Contact API allows users to perform CRUD (Create, Read, Update, Delete) operations on contact information. Each user has email, username, and password. The contact model includes the following 
+fields:
+    ID (unique identifier for each contact)
+    Name
+    Email
+    Phone Number
+    Address
+
+Authentication
+All endpoints of the Contact API require user authentication. Users should include their valid credentials in the request header to access the API.
+
+Base URL
+    The base URL for the Contact API is http://127.0.0.1:8000/api/contacts_api/.
+
+Endpoints
+1. List and Create Contacts
+    URL: http://127.0.0.1:8000/api/contacts_api/
+    Method: GET (List), POST (Create)
+    Authentication: Required
+    Description: Retrieve a list of contacts or create a new contact.
+
+2. Retrieve, Update, and Delete a Contact
+    URL: http://127.0.0.1:8000/api/contacts/<int:pk>/
+    Method: GET (Retrieve), PUT/PATCH (Update), DELETE (Delete)
+    Authentication: Required
+    Description: Retrieve, update, or delete a specific contact identified by its unique ID.
+
+Request and Response Examples
+
+1. List Contacts
+Request:
+    curl -X GET http://127.0.0.1:8000/api/contacts_api/ -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+Response:
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "phone_number": "1234567890",
+        "address": "123 Main St"
+    },
+    // ... other contacts
+]
+
+2. Create a Contact
+Request:
+    curl -X POST http://127.0.0.1:8000/api/contacts_api/ -H "Authorization: Bearer YOUR_ACCESS_TOKEN" -d "name=Jane Doe&email=jane.doe@example.com&phone_number=9876543210&address=456 Second St"
+
+Response:
+{
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "phone_number": "9876543210",
+    "address": "456 Second St"
+}
+
+3. Retrieve a Contact
+Request:
+    curl -X GET http://127.0.0.1:8000/api/contacts/1/ -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+Response:
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone_number": "1234567890",
+    "address": "123 Main St"
+}
+
+4. Update a Contact
+Request:
+    curl -X PUT http://127.0.0.1:8000/api/contacts/1/ -H "Authorization: Bearer YOUR_ACCESS_TOKEN" -d "name=John Updated&email=john.updated@example.com&phone_number=1112223333&address=Updated Address"
+
+Response:
+{
+    "id": 1,
+    "name": "John Updated",
+    "email": "john.updated@example.com",
+    "phone_number": "1112223333",
+    "address": "Updated Address"
+}
+
+5. Delete a Contact
+Request:
+    curl -X DELETE http://127.0.0.1:8000/api/contacts/1/ -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+Response:
+{"message": "Contact deleted successfully"}
+
+
+Conclusion:
+This documentation provides an overview of the Contact API, its authentication requirements, available endpoints, and examples of how to perform CRUD operations. Ensure that you include the proper authentication token in your requests to access the API endpoints.
+
+
+
+
+
+#####################################################
+Contact Management Documentation Frontend & Backend
+#####################################################
+
+Introduction:
+
+This documentation outlines the functionality provided by the Contact Management views in your Django application. These views allow users to interact with contact information, including listing contacts, creating new contacts, updating contact details, and deleting contacts.
+
+Views
+1. Contact List View (ContactListView)
+    URL: /contacts/
+    HTTP Method: GET
+    Description: Displays a list of all contacts.
+    Usage:
+        Access the URL /contacts/ to view a list of all contacts.
+
+2. Contact Create View (ContactCreateView)
+    URL: /contacts/create/
+    HTTP Methods: GET (Render the form), POST (Submit the form)
+    Description: Allows users to add a new contact to the system.
+    Usage:
+        Access the URL /contacts/create/ to render the contact creation form.
+        Submit the form with contact details to add a new contact.
+        Upon successful submission, redirects to the contact list.
+
+3. Contact Edit View (ContactEditView)
+    URL: /contacts/edit/<int:contact_id>/
+    HTTP Methods: GET (Render the form), POST (Submit the form)
+    Description: Allows users to update existing contact information.
+    Usage:
+        Access the URL /contacts/edit/<int:contact_id>/ to render the contact edit form.
+        Submit the form with updated contact details to save changes.
+        Upon successful submission, redirects to the contact list.
+
+4. Delete Contact View (DeleteContactView)
+    URL: /delete-contact/<int:contact_id>/
+    HTTP Methods: GET (Render the confirmation), POST (Delete the contact)
+    Description: Allows users to delete a specific contact.
+    Usage:
+        Access the URL /delete-contact/<int:contact_id>/ to render the confirmation page.
+        Confirm the deletion to permanently remove the contact.
+        Upon successful deletion, redirects to the contact list.
+
+URL Patterns
+The following URL patterns are configured to map to the corresponding views:
+
+    http://127.0.0.1:8000/contacts/: Maps to ContactListView for listing all contacts.
+    http://127.0.0.1:8000/contacts/create/: Maps to ContactCreateView for adding a new contact.
+    http://127.0.0.1:8000/contacts/edit/<int:contact_id>/: Maps to ContactEditView for updating contact information.
+    http://127.0.0.1:8000/delete-contact/<int:contact_id>/: Maps to DeleteContactView for deleting a contact.
+
+Conclusion:
+This documentation provides an overview of the contact management views, their URLs, and usage instructions. Users can navigate the application to view, create, update, and delete contact information based on their requirements.
